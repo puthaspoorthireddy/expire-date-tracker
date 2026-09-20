@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Expiry Tracker - Login</title>
+
+
+<style>
+
+/* =====================================================
+   BASIC RESET
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: #263238;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 8% 12%,
+            rgba(255,190,205,.45),
+            transparent 24%
+        ),
+
+        radial-gradient(
+            circle at 92% 15%,
+            rgba(180,220,255,.48),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 8% 88%,
+            rgba(190,240,205,.45),
+            transparent 26%
+        ),
+
+        radial-gradient(
+            circle at 94% 88%,
+            rgba(255,225,170,.48),
+            transparent 26%
+        ),
+
+        linear-gradient(
+            135deg,
+            #fff9fb,
+            #f5f8ff 48%,
+            #f8fff9
+        );
+}
+
+
+/* =====================================================
+   GROCERY BACKGROUND
+   ===================================================== */
+
+.grocery {
+
+    position: fixed;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    font-size: 55px;
+
+    opacity: .48;
+
+    filter:
+        drop-shadow(
+            0 7px 10px rgba(0,0,0,.08)
+        );
+
+    animation:
+        floating 7s ease-in-out infinite;
+}
+
+
+/* Apple */
+
+.g1 {
+    left: 5%;
+    top: 10%;
+}
+
+
+/* Vegetables */
+
+.g2 {
+    right: 6%;
+    top: 9%;
+    animation-delay: 1s;
+}
+
+
+/* Carrot */
+
+.g3 {
+    left: 7%;
+    bottom: 12%;
+    animation-delay: 2s;
+}
+
+
+/* Orange */
+
+.g4 {
+    right: 7%;
+    bottom: 12%;
+    animation-delay: 3s;
+}
+
+
+/* Bread */
+
+.g5 {
+    left: 16%;
+    top: 30%;
+    font-size: 42px;
+    animation-delay: 1.5s;
+}
+
+
+/* Milk */
+
+.g6 {
+    right: 16%;
+    top: 32%;
+    font-size: 43px;
+    animation-delay: 2.5s;
+}
+
+
+/* Cookie */
+
+.g7 {
+    left: 3%;
+    top: 60%;
+    font-size: 40px;
+    animation-delay: 3s;
+}
+
+
+/* Juice */
+
+.g8 {
+    right: 3%;
+    top: 62%;
+    font-size: 40px;
+    animation-delay: 4s;
+}
+
+
+/* Floating animation */
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-14px)
+            rotate(4deg);
+    }
+}
+
+
+/* =====================================================
+   PAGE
+   ===================================================== */
+
+.page {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+}
+
+
+/* =====================================================
+   LOGIN BOX
+   ===================================================== */
+
+.login-box {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    padding: 42px 40px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-radius: 25px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.75);
+
+    box-shadow:
+        0 20px 55px
+        rgba(70,80,110,.15);
+
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo {
+
+    width: 72px;
+
+    height: 72px;
+
+    margin:
+        0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 21px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-size: 34px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(99,102,241,.25);
+}
+
+
+/* =====================================================
+   TITLE
+   ===================================================== */
+
+h1 {
+
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 30px;
+
+    color: #30364d;
+}
+
+
+.subtitle {
+
+    margin:
+        9px 0 28px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    color: #858b9a;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   INPUT FIELDS
+   ===================================================== */
+
+.field {
+
+    margin-bottom: 18px;
+}
+
+
+label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #3d4355;
+}
+
+
+input {
+
+    width: 100%;
+
+    height: 48px;
+
+    padding:
+        0 15px;
+
+    border:
+        1px solid
+        #dfe2e8;
+
+    border-radius: 11px;
+
+    background:
+        #fafbfe;
+
+    font-size: 14px;
+
+    color: #30364d;
+
+    outline: none;
+
+    transition: .2s;
+}
+
+
+input:focus {
+
+    border-color:
+        #6366f1;
+
+    background:
+        white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(99,102,241,.10);
+}
+
+
+input::placeholder {
+
+    color:
+        #a7acb8;
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+   ===================================================== */
+
+.login-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 7px;
+
+    border: 0;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #7c3aed
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 20px
+        rgba(99,102,241,.22);
+
+    transition: .2s;
+}
+
+
+.login-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 25px
+        rgba(99,102,241,.28);
+}
+
+
+.login-btn:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =====================================================
+   SIGNUP
+   ===================================================== */
+
+.signup-text {
+
+    margin-top: 24px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #858b9a;
+}
+
+
+.signup-text a {
+
+    color: #6366f1;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+
+.signup-text a:hover {
+
+    text-decoration:
+        underline;
+}
+
+
+/* =====================================================
+   SECURITY TEXT
+   ===================================================== */
+
+.security {
+
+    margin-top: 22px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid
+        #eef0f4;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #a1a5b1;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .page {
+        padding: 20px;
+    }
+
+    .login-box {
+
+        padding:
+            35px 25px;
+
+        border-radius:
+            22px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .grocery {
+
+        font-size: 40px;
+
+        opacity: .30;
+    }
+
+    .g5,
+    .g6,
+    .g7,
+    .g8 {
+
+        display: none;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     GROCERY BACKGROUND DECORATIONS
+     ===================================================== -->
+
+<div class="grocery g1">
+    &#x1F34E;
+</div>
+
+<div class="grocery g2">
+    &#x1F966;
+</div>
+
+<div class="grocery g3">
+    &#x1F955;
+</div>
+
+<div class="grocery g4">
+    &#x1F34A;
+</div>
+
+<div class="grocery g5">
+    &#x1F35E;
+</div>
+
+<div class="grocery g6">
+    &#x1F95B;
+</div>
+
+<div class="grocery g7">
+    &#x1F36A;
+</div>
+
+<div class="grocery g8">
+    &#x1F9C3;
+</div>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+     ===================================================== -->
+
+<div class="page">
+
+
+    <div class="login-box">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+            &#x23F3;
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1>
+            Welcome Back!
+        </h1>
+
+
+        <p class="subtitle">
+            Login to manage your grocery expiry dates
+            and keep everything fresh.
+        </p>
+
+
+        <!-- LOGIN FORM -->
+
+        <form
+            method="POST"
+            action="/login"
+        >
+
+
+            <!-- USERNAME -->
+
+            <div class="field">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="field">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login &#x2192;
+            </button>
+
+
+        </form>
+
+
+        <!-- SIGNUP -->
+
+        <div class="signup-text">
+
+            Don't have an account?
+
+            <a href="signup.html">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div class="security">
+
+            &#x1F512;
+            Your account information is secure
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

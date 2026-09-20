@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Expiry Tracker - Sign Up</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 8% 12%,
+            rgba(255,190,205,.45),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 92% 15%,
+            rgba(180,220,255,.48),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 8% 88%,
+            rgba(190,240,205,.45),
+            transparent 26%
+        ),
+        radial-gradient(
+            circle at 94% 88%,
+            rgba(255,225,170,.48),
+            transparent 26%
+        ),
+        linear-gradient(
+            135deg,
+            #fff9fb,
+            #f5f8ff 48%,
+            #f8fff9
+        );
+}
+
+
+/* =========================
+   GROCERY BACKGROUND
+========================= */
+
+.grocery {
+    position: fixed;
+    z-index: 1;
+
+    font-size: 55px;
+    opacity: .42;
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(
+            0 7px 10px rgba(0,0,0,.08)
+        );
+
+    animation:
+        float 8s ease-in-out infinite;
+}
+
+.g1 {
+    left: 5%;
+    top: 12%;
+}
+
+.g2 {
+    right: 6%;
+    top: 10%;
+}
+
+.g3 {
+    left: 8%;
+    bottom: 13%;
+}
+
+.g4 {
+    right: 7%;
+    bottom: 14%;
+}
+
+.g5 {
+    left: 17%;
+    top: 28%;
+}
+
+.g6 {
+    right: 17%;
+    top: 30%;
+}
+
+@keyframes float {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+}
+
+
+/* =========================
+   SIGNUP CARD
+========================= */
+
+.signup-card {
+
+    position: relative;
+
+    z-index: 10;
+
+    width: 430px;
+    max-width: 92%;
+
+    padding: 38px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter: blur(18px);
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 20px 55px
+        rgba(70,80,110,.16);
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    width: 62px;
+    height: 62px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(99,102,241,.25);
+}
+
+
+h1 {
+
+    margin: 0;
+
+    text-align: center;
+
+    color: #30364d;
+
+    font-size: 29px;
+}
+
+
+.subtitle {
+
+    margin: 8px 0 25px;
+
+    text-align: center;
+
+    color: #858b9a;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+
+    margin-bottom: 17px;
+}
+
+
+label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+input {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #dfe3eb;
+
+    border-radius: 11px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    background: #fafbff;
+
+    transition: .2s;
+}
+
+
+input:focus {
+
+    border-color: #6366f1;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(99,102,241,.10);
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 7px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #7c3aed
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    box-shadow:
+        0 10px 22px
+        rgba(99,102,241,.22);
+}
+
+
+button:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 13px 27px
+        rgba(99,102,241,.30);
+}
+
+
+button:disabled {
+
+    opacity: .65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-text {
+
+    margin-top: 21px;
+
+    text-align: center;
+
+    color: #858b9a;
+
+    font-size: 13px;
+}
+
+
+.login-text a {
+
+    color: #6366f1;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+
+.login-text a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+
+    display: none;
+
+    margin-bottom: 15px;
+
+    padding: 11px 13px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+.success {
+
+    display: block;
+
+    background: #def8e6;
+
+    color: #287a45;
+}
+
+
+.error {
+
+    display: block;
+
+    background: #ffe4e8;
+
+    color: #d9364f;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:500px) {
+
+    .signup-card {
+
+        padding: 30px 24px;
+    }
+
+    h1 {
+
+        font-size: 25px;
+    }
+
+    .grocery {
+
+        opacity: .25;
+
+        font-size: 45px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     BACKGROUND ITEMS
+========================= -->
+
+<div class="grocery g1">&#x1F95B;</div>
+
+<div class="grocery g2">&#x1F34E;</div>
+
+<div class="grocery g3">&#x1F955;</div>
+
+<div class="grocery g4">&#x1F966;</div>
+
+<div class="grocery g5">&#x1F35E;</div>
+
+<div class="grocery g6">&#x1F6D2;</div>
+
+
+<!-- =========================
+     SIGNUP CARD
+========================= -->
+
+<div class="signup-card">
+
+
+    <div class="logo">
+        &#x23F3;
+    </div>
+
+
+    <h1>
+        Create Account
+    </h1>
+
+
+    <p class="subtitle">
+        Sign up to manage your grocery expiry dates
+    </p>
+
+
+    <!-- MESSAGE -->
+
+    <div id="message"
+         class="message">
+    </div>
+
+
+    <!-- =====================
+         SIGNUP FORM
+    ====================== -->
+
+    <form id="signupForm"
+          method="POST"
+          action="/signup">
+
+
+        <!-- FULL NAME -->
+
+        <div class="form-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                name="full_name"
+                id="full_name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+            >
+
+        </div>
+
+
+        <!-- USERNAME -->
+
+        <div class="form-group">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Choose a username"
+                autocomplete="username"
+                required
+            >
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Create a password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+        </div>
+
+
+        <!-- CONFIRM PASSWORD -->
+
+        <div class="form-group">
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm your password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            id="signupButton">
+
+            Create Account
+
+        </button>
+
+
+    </form>
+
+
+    <!-- LOGIN -->
+
+    <div class="login-text">
+
+        Already have an account?
+
+        <a href="/login.html">
+            Login
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+   SIGNUP FORM VALIDATION
+========================================= */
+
+document
+.getElementById("signupForm")
+.addEventListener(
+    "submit",
+    function(event) {
+
+        var password =
+            document
+            .getElementById("password")
+            .value;
+
+        var confirmPassword =
+            document
+            .getElementById("confirmPassword")
+            .value;
+
+        var username =
+            document
+            .getElementById("username")
+            .value
+            .trim();
+
+        var fullName =
+            document
+            .getElementById("full_name")
+            .value
+            .trim();
+
+        var email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+        var message =
+            document
+            .getElementById("message");
+
+        var button =
+            document
+            .getElementById("signupButton");
+
+
+        /* Clear previous message */
+
+        message.className = "message";
+
+        message.textContent = "";
+
+
+        /* Full name validation */
+
+        if (fullName.length < 2) {
+
+            event.preventDefault();
+
+            message.className =
+                "message error";
+
+            message.textContent =
+                "Please enter a valid full name.";
+
+            return;
+        }
+
+
+        /* Username validation */
+
+        if (username.length < 3) {
+
+            event.preventDefault();
+
+            message.className =
+                "message error";
+
+            message.textContent =
+                "Username must contain at least 3 characters.";
+
+            return;
+        }
+
+
+        /* Password validation */
+
+        if (password.length < 6) {
+
+            event.preventDefault();
+
+            message.className =
+                "message error";
+
+            message.textContent =
+                "Password must contain at least 6 characters.";
+
+            return;
+        }
+
+
+        /* Confirm password */
+
+        if (password !== confirmPassword) {
+
+            event.preventDefault();
+
+            message.className =
+                "message error";
+
+            message.textContent =
+                "Passwords do not match!";
+
+            return;
+        }
+
+
+        /*
+         * Everything is valid.
+         *
+         * Let the browser send:
+         *
+         * full_name
+         * username
+         * email
+         * password
+         *
+         * to:
+         *
+         * POST /signup
+         */
+
+        button.disabled = true;
+
+        button.textContent =
+            "Creating Account...";
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

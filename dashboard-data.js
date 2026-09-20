@@ -1,0 +1,1 @@
+var expiringProducts = [{product:"atta",daysLeft:2},{product:"chocolates",daysLeft:3},{product:"cakes",daysLeft:19}];

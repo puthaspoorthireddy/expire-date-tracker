@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Expiry Tracker Dashboard</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #263238;
+
+    background:
+
+        radial-gradient(
+            circle at 8% 12%,
+            rgba(255, 190, 205, 0.45),
+            transparent 24%
+        ),
+
+        radial-gradient(
+            circle at 92% 15%,
+            rgba(180, 220, 255, 0.48),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 8% 88%,
+            rgba(190, 240, 205, 0.45),
+            transparent 26%
+        ),
+
+        radial-gradient(
+            circle at 94% 88%,
+            rgba(255, 225, 170, 0.48),
+            transparent 26%
+        ),
+
+        linear-gradient(
+            135deg,
+            #fff9fb 0%,
+            #f5f8ff 48%,
+            #f8fff9 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   BACKGROUND BUBBLES
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 220px;
+    height: 220px;
+
+    left: -100px;
+    top: 250px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 180, 198, 0.22);
+
+    filter: blur(5px);
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    animation:
+        bubbleMove 10s ease-in-out infinite;
+}
+
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    width: 260px;
+    height: 260px;
+
+    right: -120px;
+    bottom: 120px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(175, 215, 255, 0.22);
+
+    filter: blur(5px);
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    animation:
+        bubbleMove 12s ease-in-out infinite reverse;
+}
+
+
+@keyframes bubbleMove {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-22px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   GROCERY BACKGROUND
+===================================================== */
+
+.grocery {
+
+    position: fixed;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    opacity: 0.52;
+
+    filter:
+        drop-shadow(
+            0 7px 10px
+            rgba(0,0,0,0.08)
+        );
+
+    animation:
+        groceryFloat
+        var(--speed)
+        ease-in-out
+        infinite;
+}
+
+
+.g1 {
+    left: 3%;
+    top: 16%;
+    --speed: 7s;
+    font-size: 55px;
+}
+
+.g2 {
+    right: 4%;
+    top: 12%;
+    --speed: 9s;
+    font-size: 58px;
+}
+
+.g3 {
+    left: 5%;
+    bottom: 16%;
+    --speed: 8s;
+    font-size: 53px;
+}
+
+.g4 {
+    right: 5%;
+    bottom: 18%;
+    --speed: 10s;
+    font-size: 57px;
+}
+
+.g5 {
+    left: 12%;
+    top: 38%;
+    --speed: 11s;
+    font-size: 43px;
+}
+
+.g6 {
+    right: 12%;
+    top: 40%;
+    --speed: 8s;
+    font-size: 46px;
+}
+
+.g7 {
+    left: 2%;
+    top: 64%;
+    --speed: 9s;
+    font-size: 48px;
+}
+
+.g8 {
+    right: 2%;
+    top: 66%;
+    --speed: 12s;
+    font-size: 51px;
+}
+
+.g9 {
+    left: 16%;
+    bottom: 6%;
+    --speed: 10s;
+    font-size: 44px;
+}
+
+.g10 {
+    right: 16%;
+    bottom: 7%;
+    --speed: 8s;
+    font-size: 47px;
+}
+
+
+@keyframes groceryFloat {
+
+    0% {
+
+        transform:
+            translateY(0)
+            translateX(0);
+    }
+
+    25% {
+
+        transform:
+            translateY(-8px)
+            translateX(4px);
+    }
+
+    50% {
+
+        transform:
+            translateY(-16px)
+            translateX(-3px);
+    }
+
+    75% {
+
+        transform:
+            translateY(-7px)
+            translateX(4px);
+    }
+
+    100% {
+
+        transform:
+            translateY(0)
+            translateX(0);
+    }
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+
+    min-height: 78px;
+
+    padding: 0 7%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        rgba(255,255,255,0.84);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.95);
+
+    box-shadow:
+        0 6px 25px
+        rgba(70,80,110,0.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    font-size: 21px;
+
+    font-weight: 750;
+
+    color: #263238;
+}
+
+
+.brand-icon {
+
+    width: 43px;
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(99,102,241,0.28);
+}
+
+
+/* =====================================================
+   NAV BUTTONS
+===================================================== */
+
+.nav-buttons {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.btn {
+
+    text-decoration: none;
+
+    padding:
+        11px 18px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    transition:
+        all 0.25s ease;
+}
+
+
+.add-btn {
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 7px 18px
+        rgba(99,102,241,0.25);
+}
+
+
+.add-btn:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 11px 25px
+        rgba(99,102,241,0.35);
+}
+
+
+.view-btn {
+
+    color: #374151;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    border:
+        1px solid #e1e5eb;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0,0,0,0.04);
+}
+
+
+.view-btn:hover {
+
+    transform:
+        translateY(-3px);
+
+    background: white;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+
+    width: 86%;
+
+    max-width: 1150px;
+
+    margin: 0 auto;
+
+    padding:
+        48px 0 70px;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.intro {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        40px 42px;
+
+    margin-bottom: 38px;
+
+    border-radius: 25px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed 55%,
+            #9333ea
+        );
+
+    color: white;
+
+    box-shadow:
+        0 18px 45px
+        rgba(79,70,229,0.23);
+}
+
+
+.intro::after {
+
+    content: "🛒";
+
+    position: absolute;
+
+    right: 45px;
+
+    bottom: -12px;
+
+    font-size: 105px;
+
+    opacity: 0.16;
+
+    transform: rotate(-8deg);
+}
+
+
+.intro h1 {
+
+    margin:
+        12px 0 0;
+
+    font-size: 36px;
+
+    font-weight: 750;
+}
+
+
+.intro p {
+
+    margin:
+        9px 0 0;
+
+    color:
+        rgba(255,255,255,0.78);
+
+    font-size: 15px;
+}
+
+
+.intro-label {
+
+    display: inline-block;
+
+    padding:
+        6px 12px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    color:
+        rgba(255,255,255,0.92);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section {
+
+    margin-bottom: 40px;
+}
+
+
+.section-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+
+.section-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.section-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff1c9,
+            #ffe1a3
+        );
+
+    font-size: 21px;
+}
+
+
+.expired-icon {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe1e5,
+            #ffc9d0
+        );
+}
+
+
+.section-title {
+
+    margin: 0;
+
+    font-size: 21px;
+
+    font-weight: 750;
+
+    color: #263238;
+}
+
+
+.section-subtitle {
+
+    padding:
+        7px 13px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.78);
+
+    color: #777d89;
+
+    border:
+        1px solid #e8e9ee;
+
+    font-size: 12px;
+}
+
+
+.expired-subtitle {
+
+    color: #d9364f;
+
+    border-color: #ffcbd1;
+}
+
+
+/* =====================================================
+   TABLE CARD
+===================================================== */
+
+.table-card {
+
+    background:
+        rgba(255,255,255,0.90);
+
+    backdrop-filter:
+        blur(15px);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.95);
+
+    border-radius: 19px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 15px 38px
+        rgba(70,80,110,0.10);
+}
+
+
+.table-scroll {
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse:
+        separate;
+
+    border-spacing: 0;
+}
+
+
+thead {
+
+    background:
+        linear-gradient(
+            90deg,
+            #eef2ff,
+            #f4f0ff
+        );
+}
+
+
+th {
+
+    padding:
+        17px 20px;
+
+    text-align: left;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    color: #6366a3;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.8px;
+
+    border-bottom:
+        1px solid #e1e4ff;
+}
+
+
+td {
+
+    padding:
+        19px 20px;
+
+    font-size: 14px;
+
+    border-bottom:
+        1px solid #eef0f4;
+
+    background:
+        rgba(255,255,255,0.65);
+}
+
+
+tbody tr:last-child td {
+
+    border-bottom: none;
+}
+
+
+tbody tr:hover td {
+
+    background:
+        #f8f9ff;
+}
+
+
+/* =====================================================
+   SERIAL
+===================================================== */
+
+.serial {
+
+    color: #9da3b0;
+
+    width: 75px;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+/* =====================================================
+   PRODUCT NAME
+===================================================== */
+
+.product-name {
+
+    font-weight: 700;
+
+    color: #30364d;
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.days-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 75px;
+
+    padding:
+        7px 13px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.urgent {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe4e8,
+            #ffd2d8
+        );
+
+    color: #d9364f;
+
+    border:
+        1px solid #ffc0c8;
+}
+
+
+.warning {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff1d4,
+            #ffe4ae
+        );
+
+    color: #bd7200;
+
+    border:
+        1px solid #ffd58d;
+}
+
+
+.safe {
+
+    background:
+        linear-gradient(
+            135deg,
+            #def8e6,
+            #c9f0d5
+        );
+
+    color: #287a45;
+
+    border:
+        1px solid #b9e5c7;
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.empty {
+
+    text-align: center;
+
+    padding:
+        60px 20px !important;
+
+    color: #898f9c;
+
+    font-size: 14px;
+}
+
+
+.empty::before {
+
+    content: "✓";
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 53px;
+
+    height: 53px;
+
+    margin:
+        0 auto 13px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dcfce7,
+            #bbf7d0
+        );
+
+    color: #2f855a;
+
+    font-size: 21px;
+
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading::before {
+
+    content: "⏳";
+
+    background:
+        linear-gradient(
+            135deg,
+            #e0e7ff,
+            #ddd6fe
+        );
+
+    color: #6366f1;
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error-state::before {
+
+    content: "!";
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe4e6,
+            #fecdd3
+        );
+
+    color: #dc2626;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align: center;
+
+    color: #a1a5b1;
+
+    font-size: 12px;
+
+    padding-bottom: 30px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .navbar {
+
+        height: auto;
+
+        padding:
+            16px 5%;
+
+        gap: 15px;
+
+        flex-direction:
+            column;
+    }
+
+
+    .nav-buttons {
+
+        justify-content:
+            center;
+
+        flex-wrap: wrap;
+    }
+
+
+    .container {
+
+        width: 92%;
+
+        padding-top: 35px;
+    }
+
+
+    .intro {
+
+        padding:
+            30px 25px;
+    }
+
+
+    .intro h1 {
+
+        font-size: 29px;
+    }
+
+
+    .intro::after {
+
+        font-size: 75px;
+
+        right: 15px;
+    }
+
+
+    .section-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap: 10px;
+    }
+
+
+    table {
+
+        min-width: 500px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     GROCERY BACKGROUND
+===================================================== -->
+
+<div class="grocery g1">🥛</div>
+
+<div class="grocery g2">🍎</div>
+
+<div class="grocery g3">🥕</div>
+
+<div class="grocery g4">🥦</div>
+
+<div class="grocery g5">🍞</div>
+
+<div class="grocery g6">🥫</div>
+
+<div class="grocery g7">🍪</div>
+
+<div class="grocery g8">🧃</div>
+
+<div class="grocery g9">🫙</div>
+
+<div class="grocery g10">🛒</div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ⏳
+        </div>
+
+        Expiry Tracker
+
+    </div>
+
+
+    <div class="nav-buttons">
+
+        <a
+            href="add-product.html"
+            class="btn add-btn">
+
+            + Add Product
+
+        </a>
+
+
+        <a
+            href="http://localhost:8080/products"
+            class="btn view-btn">
+
+            View Products →
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         HERO
+    ================================================= -->
+
+    <section class="intro">
+
+        <span class="intro-label">
+            Grocery Inventory
+        </span>
+
+
+        <h1>
+            Expiry Tracker
+        </h1>
+
+
+        <p>
+            Keep your groceries fresh and
+            never miss an expiry date.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         ALREADY EXPIRED
+    ================================================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+
+            <div class="section-left">
+
+                <div
+                    class="section-icon expired-icon">
+
+                    🔴
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="section-title">
+
+                        Already Expired
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <span
+                class="section-subtitle expired-subtitle">
+
+                Products past expiry date
+
+            </span>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-scroll">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Product Name
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="expiredTable">
+
+                        <tr>
+
+                            <td
+                                colspan="3"
+                                class="empty loading">
+
+                                Loading expired products...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         EXPIRING SOON
+    ================================================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+
+            <div class="section-left">
+
+                <div class="section-icon">
+
+                    ⏰
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="section-title">
+
+                        Expiring Soon
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <span class="section-subtitle">
+
+                Within the next 60 days
+
+            </span>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-scroll">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Product Name
+                            </th>
+
+                            <th>
+                                Days Left
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="expiringTable">
+
+                        <tr>
+
+                            <td
+                                colspan="3"
+                                class="empty loading">
+
+                                Loading expiring products...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    Expiry Tracker •
+    Smart Product Expiry Management
+
+</footer>
+
+
+
+<script>
+
+/* =====================================================
+   TABLE REFERENCES
+===================================================== */
+
+var expiredTable =
+    document.getElementById(
+        "expiredTable"
+    );
+
+
+var expiringTable =
+    document.getElementById(
+        "expiringTable"
+    );
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    var div =
+        document.createElement("div");
+
+    div.textContent =
+        value == null
+            ? ""
+            : String(value);
+
+    return div.innerHTML;
+}
+
+
+/* =====================================================
+   LOAD EXPIRED PRODUCTS
+=====================================================
+
+   IMPORTANT:
+   We are NOT using /expired-products here because
+   your current ProductServer.java does not have that
+   endpoint.
+
+   Instead we get ALL products from /products-data
+   and filter expired products in JavaScript.
+
+===================================================== */
+
+fetch(
+    "http://localhost:8080/products-data"
+)
+
+.then(function(response) {
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Server returned " +
+            response.status
+        );
+    }
+
+    return response.json();
+
+})
+
+.then(function(data) {
+
+    console.log(
+        "All products:",
+        data
+    );
+
+
+    expiredTable.innerHTML = "";
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        expiredTable.innerHTML =
+
+            "<tr>" +
+
+            "<td colspan='3' " +
+            "class='empty'>" +
+
+            "No expired products." +
+
+            "</td>" +
+
+            "</tr>";
+
+        return;
+    }
+
+
+    var count = 0;
+
+
+    var today =
+        new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    data.forEach(function(product) {
+
+
+        var name =
+            product.product ||
+            product.name ||
+            product.productName ||
+            product.product_name;
+
+
+        var expiry =
+            product.expiryDate ||
+            product.expiry_date;
+
+
+        if (
+            !name ||
+            !expiry
+        ) {
+
+            return;
+        }
+
+
+        var expiryDate =
+            new Date(expiry);
+
+
+        expiryDate.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        if (
+            expiryDate < today
+        ) {
+
+            count++;
+
+
+            expiredTable.innerHTML +=
+
+                "<tr>" +
+
+                "<td class='serial'>" +
+
+                String(count)
+                    .padStart(2, "0") +
+
+                "</td>" +
+
+                "<td class='product-name'>" +
+
+                escapeHtml(name) +
+
+                "</td>" +
+
+                "<td>" +
+
+                "<span " +
+                "class='days-badge urgent'>" +
+
+                "Expired" +
+
+                "</span>" +
+
+                "</td>" +
+
+                "</tr>";
+        }
+
+    });
+
+
+    if (count === 0) {
+
+        expiredTable.innerHTML =
+
+            "<tr>" +
+
+            "<td colspan='3' " +
+            "class='empty'>" +
+
+            "No expired products." +
+
+            "</td>" +
+
+            "</tr>";
+    }
+
+})
+
+
+.catch(function(error) {
+
+    console.error(
+        "Expired Products Error:",
+        error
+    );
+
+
+    expiredTable.innerHTML =
+
+        "<tr>" +
+
+        "<td colspan='3' " +
+        "class='empty error-state'>" +
+
+        "Unable to connect to server." +
+
+        "</td>" +
+
+        "</tr>";
+
+});
+
+
+
+/* =====================================================
+   EXPIRING SOON
+===================================================== */
+
+fetch(
+    "http://localhost:8080/expiring-products"
+)
+
+.then(function(response) {
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Server returned " +
+            response.status
+        );
+    }
+
+    return response.json();
+
+})
+
+
+.then(function(data) {
+
+    console.log(
+        "Expiring products:",
+        data
+    );
+
+
+    expiringTable.innerHTML = "";
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        expiringTable.innerHTML =
+
+            "<tr>" +
+
+            "<td colspan='3' " +
+            "class='empty'>" +
+
+            "No products are expiring " +
+            "within the next 60 days." +
+
+            "</td>" +
+
+            "</tr>";
+
+        return;
+    }
+
+
+    var count = 0;
+
+
+    data.forEach(function(product) {
+
+
+        var name =
+            product.product ||
+            product.name ||
+            product.productName ||
+            product.product_name;
+
+
+        var days =
+            product.daysLeft;
+
+
+        if (
+            days === undefined ||
+            days === null
+        ) {
+
+            days =
+                product.days_left;
+        }
+
+
+        days =
+            Number(days);
+
+
+        if (
+            !name ||
+            isNaN(days)
+        ) {
+
+            return;
+        }
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Expired products must NEVER
+         * appear inside Expiring Soon.
+         */
+
+        if (days < 0) {
+
+            return;
+        }
+
+
+        count++;
+
+
+        var badgeClass =
+            "safe";
+
+
+        if (days <= 7) {
+
+            badgeClass =
+                "urgent";
+
+        }
+
+        else if (days <= 30) {
+
+            badgeClass =
+                "warning";
+        }
+
+
+        expiringTable.innerHTML +=
+
+            "<tr>" +
+
+            "<td class='serial'>" +
+
+            String(count)
+                .padStart(2, "0") +
+
+            "</td>" +
+
+            "<td class='product-name'>" +
+
+            escapeHtml(name) +
+
+            "</td>" +
+
+            "<td>" +
+
+            "<span " +
+            "class='days-badge " +
+            badgeClass +
+            "'>" +
+
+            days +
+
+            (
+                days === 1
+                    ? " day"
+                    : " days"
+            ) +
+
+            "</span>" +
+
+            "</td>" +
+
+            "</tr>";
+
+    });
+
+
+    if (count === 0) {
+
+        expiringTable.innerHTML =
+
+            "<tr>" +
+
+            "<td colspan='3' " +
+            "class='empty'>" +
+
+            "No products are expiring " +
+            "within the next 60 days." +
+
+            "</td>" +
+
+            "</tr>";
+    }
+
+})
+
+
+.catch(function(error) {
+
+    console.error(
+        "Expiring Products Error:",
+        error
+    );
+
+
+    expiringTable.innerHTML =
+
+        "<tr>" +
+
+        "<td colspan='3' " +
+        "class='empty error-state'>" +
+
+        "Unable to connect to server." +
+
+        "</td>" +
+
+        "</tr>";
+
+});
+
+
+</script>
+
+
+</body>
+
+</html> 

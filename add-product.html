@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Add Product - Expiry Tracker</title>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #263238;
+
+    background:
+
+        radial-gradient(
+            circle at 8% 12%,
+            rgba(255, 190, 205, 0.45),
+            transparent 24%
+        ),
+
+        radial-gradient(
+            circle at 92% 15%,
+            rgba(180, 220, 255, 0.48),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 8% 88%,
+            rgba(190, 240, 205, 0.45),
+            transparent 26%
+        ),
+
+        radial-gradient(
+            circle at 94% 88%,
+            rgba(255, 225, 170, 0.48),
+            transparent 26%
+        ),
+
+        linear-gradient(
+            135deg,
+            #fff9fb 0%,
+            #f5f8ff 48%,
+            #f8fff9 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   SOFT BACKGROUND BUBBLES
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 220px;
+    height: 220px;
+
+    left: -100px;
+    top: 250px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 180, 198, 0.22);
+
+    filter: blur(5px);
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    animation:
+        bubbleMove 10s ease-in-out infinite;
+}
+
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    width: 260px;
+    height: 260px;
+
+    right: -120px;
+    bottom: 120px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(175, 215, 255, 0.22);
+
+    filter: blur(5px);
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    animation:
+        bubbleMove 12s ease-in-out infinite reverse;
+}
+
+
+@keyframes bubbleMove {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-22px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   FLOATING GROCERY ITEMS
+===================================================== */
+
+.grocery {
+
+    position: fixed;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    opacity: 0.48;
+
+    filter:
+        drop-shadow(
+            0 7px 10px
+            rgba(0,0,0,0.08)
+        );
+
+    animation:
+        groceryFloat
+        var(--speed)
+        ease-in-out
+        infinite;
+}
+
+
+.g1 {
+    left: 3%;
+    top: 16%;
+    --speed: 7s;
+    font-size: 55px;
+}
+
+
+.g2 {
+    right: 4%;
+    top: 12%;
+    --speed: 9s;
+    font-size: 58px;
+}
+
+
+.g3 {
+    left: 5%;
+    bottom: 16%;
+    --speed: 8s;
+    font-size: 53px;
+}
+
+
+.g4 {
+    right: 5%;
+    bottom: 18%;
+    --speed: 10s;
+    font-size: 57px;
+}
+
+
+.g5 {
+    left: 12%;
+    top: 38%;
+    --speed: 11s;
+    font-size: 43px;
+}
+
+
+.g6 {
+    right: 12%;
+    top: 40%;
+    --speed: 8s;
+    font-size: 46px;
+}
+
+
+.g7 {
+    left: 2%;
+    top: 64%;
+    --speed: 9s;
+    font-size: 48px;
+}
+
+
+.g8 {
+    right: 2%;
+    top: 66%;
+    --speed: 12s;
+    font-size: 51px;
+}
+
+
+.g9 {
+    left: 16%;
+    bottom: 6%;
+    --speed: 10s;
+    font-size: 44px;
+}
+
+
+.g10 {
+    right: 16%;
+    bottom: 7%;
+    --speed: 8s;
+    font-size: 47px;
+}
+
+
+@keyframes groceryFloat {
+
+    0% {
+
+        transform:
+            translateY(0)
+            translateX(0);
+
+    }
+
+    25% {
+
+        transform:
+            translateY(-8px)
+            translateX(4px);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-16px)
+            translateX(-3px);
+
+    }
+
+    75% {
+
+        transform:
+            translateY(-7px)
+            translateX(4px);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(0)
+            translateX(0);
+
+    }
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+
+    height: 78px;
+
+    padding: 0 7%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        rgba(255,255,255,0.84);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.95);
+
+    box-shadow:
+        0 6px 25px
+        rgba(70,80,110,0.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    font-size: 21px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
+
+    color: #263238;
+}
+
+
+.brand-icon {
+
+    width: 43px;
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(99,102,241,0.28);
+
+    animation:
+        iconFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes iconFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.back {
+
+    text-decoration: none;
+
+    padding:
+        11px 18px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #374151;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    border:
+        1px solid #e1e5eb;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0,0,0,0.04);
+
+    transition:
+        all 0.25s ease;
+}
+
+
+.back:hover {
+
+    transform:
+        translateY(-3px);
+
+    background: white;
+
+    border-color:
+        #c7d2fe;
+
+    box-shadow:
+        0 9px 20px
+        rgba(70,80,110,0.10);
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+
+    width: 86%;
+
+    max-width: 760px;
+
+    margin: 0 auto;
+
+    padding:
+        48px 0 70px;
+}
+
+
+/* =====================================================
+   HERO / HEADING
+===================================================== */
+
+.intro {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        34px 38px;
+
+    margin-bottom: 28px;
+
+    border-radius: 23px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed 55%,
+            #9333ea
+        );
+
+    color: white;
+
+    box-shadow:
+        0 18px 45px
+        rgba(79,70,229,0.23);
+}
+
+
+.intro::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 230px;
+
+    height: 230px;
+
+    right: -80px;
+
+    top: -115px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.12);
+}
+
+
+.intro::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 150px;
+
+    right: 150px;
+
+    bottom: -105px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.07);
+}
+
+
+.intro-label {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: inline-block;
+
+    padding:
+        6px 12px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    color:
+        rgba(255,255,255,0.92);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+.intro h1 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        12px 0 0;
+
+    font-size: 34px;
+
+    font-weight: 750;
+
+    letter-spacing: -1px;
+}
+
+
+.intro p {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        9px 0 0;
+
+    color:
+        rgba(255,255,255,0.78);
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FORM CARD
+===================================================== */
+
+.form-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,0.90);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.95);
+
+    border-radius: 20px;
+
+    padding:
+        34px;
+
+    box-shadow:
+        0 15px 38px
+        rgba(70,80,110,0.10);
+
+    transition:
+        all 0.3s ease;
+}
+
+
+.form-card:hover {
+
+    box-shadow:
+        0 19px 45px
+        rgba(70,80,110,0.14);
+}
+
+
+.form-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 170px;
+
+    height: 170px;
+
+    right: -75px;
+
+    top: -75px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(199,210,254,0.30);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   FORM GROUP
+===================================================== */
+
+.form-group {
+
+    margin-bottom: 21px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #4b5563;
+}
+
+
+input,
+select {
+
+    width: 100%;
+
+    padding:
+        13px 14px;
+
+    border:
+        1px solid #e1e5eb;
+
+    border-radius: 11px;
+
+    font-size: 14px;
+
+    font-family:
+        inherit;
+
+    background:
+        rgba(255,255,255,0.88);
+
+    color: #374151;
+
+    outline: none;
+
+    transition:
+        all 0.25s ease;
+}
+
+
+input::placeholder {
+
+    color: #a1a7b3;
+}
+
+
+input:hover,
+select:hover {
+
+    border-color:
+        #c7d2fe;
+
+    background: white;
+}
+
+
+input:focus,
+select:focus {
+
+    border-color:
+        #818cf8;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(99,102,241,0.11);
+}
+
+
+input[type="date"] {
+
+    color: #4b5563;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+
+.submit-btn {
+
+    width: 100%;
+
+    padding:
+        14px;
+
+    margin-top: 7px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #7c3aed
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    font-family:
+        inherit;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px
+        rgba(99,102,241,0.25);
+
+    transition:
+        all 0.25s ease;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.submit-btn:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 13px 27px
+        rgba(99,102,241,0.34);
+}
+
+
+.submit-btn:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align: center;
+
+    color: #a1a5b1;
+
+    font-size: 12px;
+
+    padding-bottom: 30px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .navbar {
+
+        height: auto;
+
+        padding:
+            15px 5%;
+
+        gap: 12px;
+
+        flex-direction:
+            column;
+    }
+
+
+    .brand {
+
+        justify-content:
+            center;
+    }
+
+
+    .container {
+
+        width: 92%;
+
+        padding-top: 35px;
+    }
+
+
+    .intro {
+
+        padding:
+            28px 24px;
+    }
+
+
+    .intro h1 {
+
+        font-size: 29px;
+    }
+
+
+    .form-card {
+
+        padding:
+            25px 20px;
+    }
+
+
+    .back {
+
+        font-size: 12px;
+    }
+
+
+    .grocery {
+
+        opacity: 0.30;
+    }
+
+
+    .g1,
+    .g2,
+    .g3,
+    .g4 {
+
+        font-size: 43px;
+    }
+
+
+    .g5,
+    .g6,
+    .g7,
+    .g8,
+    .g9,
+    .g10 {
+
+        font-size: 35px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     FLOATING GROCERY ITEMS
+===================================================== -->
+
+<div class="grocery g1">🥛</div>
+<div class="grocery g2">🍎</div>
+<div class="grocery g3">🥕</div>
+<div class="grocery g4">🥦</div>
+<div class="grocery g5">🍞</div>
+<div class="grocery g6">🥫</div>
+<div class="grocery g7">🍪</div>
+<div class="grocery g8">🧃</div>
+<div class="grocery g9">🫙</div>
+<div class="grocery g10">🛒</div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ⏳
+        </div>
+
+        Expiry Tracker
+
+    </div>
+
+
+    <a
+        href="dashboard.html"
+        class="back">
+
+        ← Back to Dashboard
+
+    </a>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         HERO
+    ================================================= -->
+
+    <section class="intro">
+
+        <span class="intro-label">
+            Product Inventory
+        </span>
+
+
+        <h1>
+            Add Product
+        </h1>
+
+
+        <p>
+            Add a product to keep track of
+            its expiry date.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         FORM
+    ================================================= -->
+
+    <div class="form-card">
+
+        <form
+            method="POST"
+            action="http://localhost:8080/add-product">
+
+
+            <!-- PRODUCT NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    name="product_name"
+                    placeholder="e.g. Milk"
+                    required>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+                <label>
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    name="category"
+                    placeholder="e.g. Dairy"
+                    required>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label>
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    name="quantity"
+                    placeholder="Enter quantity"
+                    min="1"
+                    required>
+
+            </div>
+
+
+            <!-- MANUFACTURING DATE -->
+
+            <div class="form-group">
+
+                <label>
+                    Manufacturing Date
+                </label>
+
+                <input
+                    type="date"
+                    name="manufacturing_date"
+                    required>
+
+            </div>
+
+
+            <!-- EXPIRY DATE -->
+
+            <div class="form-group">
+
+                <label>
+                    Expiry Date
+                </label>
+
+                <input
+                    type="date"
+                    name="expiry_date"
+                    required>
+
+            </div>
+
+
+            <!-- SUPPLIER -->
+
+            <div class="form-group">
+
+                <label>
+                    Supplier Name
+                </label>
+
+                <input
+                    type="text"
+                    name="supplier_name"
+                    placeholder="e.g. ABC Suppliers"
+                    required>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="submit-btn">
+
+                ✨ Add Product
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    Expiry Tracker •
+    Smart Product Expiry Management
+
+</footer>
+
+
+</body>
+
+</html>
