@@ -15,23 +15,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 public class ProductServer {
 
-    // =====================================================
-    // DATABASE
-    // =====================================================
+ // =====================================================
+// DATABASE
+// =====================================================
 
-    static final String URL =
-            "jdbc:mysql://localhost:3306/grocery_reminder";
+static final String URL =
+        "jdbc:mysql://localhost:3306/grocery_reminder";
 
-    static final String USERNAME =
-            "root";
+static final String USERNAME =
+        "root";
 
-    // IMPORTANT:
-    // Put your actual MySQL password here
-    static final String PASSWORD =
-            "Spoorthireddy@12";
-
-static final String URL = "...";
-static final String USERNAME = "...";
+// IMPORTANT:
+// Put your actual MySQL password here
+static final String PASSWORD =
+        "YOUR_MYSQL_PASSWORD";
     // =====================================================
     // MAIN
     // =====================================================
