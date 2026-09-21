@@ -30,7 +30,8 @@ public class ProductServer {
     static final String PASSWORD =
             "Spoorthireddy@12";
 
-
+static final String URL = "...";
+static final String USERNAME = "...";
     // =====================================================
     // MAIN
     // =====================================================
