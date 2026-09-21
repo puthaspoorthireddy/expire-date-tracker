@@ -15,20 +15,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 public class ProductServer {
 
- // =====================================================
+// =====================================================
 // DATABASE
 // =====================================================
 
 static final String URL =
-        "jdbc:mysql://localhost:3306/grocery_reminder";
+        "jdbc:mysql://" +
+        System.getenv("MYSQLHOST") +
+        ":" +
+        System.getenv("MYSQLPORT") +
+        "/" +
+        System.getenv("MYSQLDATABASE") +
+        "?useSSL=false&serverTimezone=UTC";
 
 static final String USERNAME =
-        "root";
+        System.getenv("MYSQLUSER");
 
-// IMPORTANT:
-// Put your actual MySQL password here
 static final String PASSWORD =
-        "YOUR_MYSQL_PASSWORD";
+        System.getenv("MYSQLPASSWORD");
     // =====================================================
     // MAIN
     // =====================================================
